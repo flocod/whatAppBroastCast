@@ -111,7 +111,7 @@ async function handleBroadcast(client, message) {
     console.log(`\n🔔 Tentative de diffusion détectée dans ${groupId} par ${author}`);
 
     // 3. Vérification Admin (Sécurité)
-    if (!isAdmin(author) || !CONFIG.ADMINS.includes(reelNumber)) {
+    if (!isAdmin(author)) {
         console.log(`⛔ Refusé : ${reelNumber} n'est pas dans la liste ADMINS.`);
         await client.sendText(author, `⚠️ Désolé ${reelNumber}, commande réservée aux administrateurs configurés.`);
         return;
