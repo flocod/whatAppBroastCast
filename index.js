@@ -39,8 +39,8 @@ function nettoyerNumero(numero) {
 
 
 
-function isAdmin(authorId) {
-    return authorId.includes("@lid");
+function isAdmin(authorId, fromMe) {
+    return authorId.includes("@lid") || fromMe;
 }
 // function isAdmin(authorId) {
 //     const cleanNumero = nettoyerNumero(authorId);
@@ -117,7 +117,7 @@ async function handleBroadcast(client, message) {
     console.log(`\n🔔 Tentative de diffusion détectée dans ${groupId} par ${author}`);
 
     // 3. Vérification Admin (Sécurité)
-    if (!isAdmin(author) || !fromMe) {
+    if (!isAdmin(author, fromMe)) {
         console.log(`⛔ Refusé : ${reelNumber} n'est pas dans la liste ADMINS.`);
         await client.sendText(author, `⚠️ Désolé ${reelNumber}, commande réservée aux administrateurs configurés.`);
         return;
