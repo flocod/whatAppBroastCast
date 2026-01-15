@@ -71,7 +71,9 @@ function formatBroadcastMessage(rawText) {
  */
 async function sendMessageToMember(client, memberId, type, messageData, caption) {
     if (type === 'image') {
-        const base64 = messageData.content || messageData.body;
+
+        const base64 = await client.downloadMedia(messageData)
+        // const base64 = messageData.content || messageData.body;
         const mime = messageData.mimetype || 'image/jpeg';
         const dataUrl = `data:${mime};base64,${base64}`;
 
@@ -91,7 +93,7 @@ async function sendMessageToMember(client, memberId, type, messageData, caption)
  */
 async function handleBroadcast(client, message) {
     // 1. Extraction des infos de base
-    const { from: groupId, author, type, caption, body, from } = message;
+    const { from: groupId, author, type, caption, body, from, fromMe } = message;
 
     console.log("groupID:", groupId, "\nAuthor:", author, "\nMessageType:", type, "\ncaption:", caption, "\nbody:", body);
 
@@ -115,7 +117,7 @@ async function handleBroadcast(client, message) {
     console.log(`\n🔔 Tentative de diffusion détectée dans ${groupId} par ${author}`);
 
     // 3. Vérification Admin (Sécurité)
-    if (!isAdmin(author)) {
+    if (!isAdmin(author) || !fromMe) {
         console.log(`⛔ Refusé : ${reelNumber} n'est pas dans la liste ADMINS.`);
         await client.sendText(author, `⚠️ Désolé ${reelNumber}, commande réservée aux administrateurs configurés.`);
         return;
