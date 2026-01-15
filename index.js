@@ -10,8 +10,8 @@ const CONFIG = {
     // Nettoyage automatique des numéros admins (enlève tout sauf les chiffres)
     ADMINS: (process.env.ADMIN_PHONES || '').split(',').map(num => num.replace(/\D/g, '')),
     TRIGGER_TAG: '@tous',
-    MIN_DELAY: 2000,
-    MAX_DELAY: 6000,
+    MIN_DELAY: 6000,
+    MAX_DELAY: 12000,
     SIGNATURE: '\n\n📢 _Envoyé par le Secrétariat Famille Nyamsi_'
 };
 
@@ -74,8 +74,12 @@ async function sendMessageToMember(client, memberId, type, messageData, caption)
         const base64 = messageData.content || messageData.body;
         const mime = messageData.mimetype || 'image/jpeg';
         const dataUrl = `data:${mime};base64,${base64}`;
+
+        return await client.sendImageFromBase64(memberId, dataUrl, 'broadcast.jpg', caption)
+
         // On envoie l'image
-        return await client.sendFile(memberId, dataUrl, 'broadcast.jpg', caption);
+        // return await client.sendFile(memberId, dataUrl, 'broadcast.jpg', caption);
+
     } else {
         // On envoie du texte simple
         return await client.sendText(memberId, caption);
