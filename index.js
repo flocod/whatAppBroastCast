@@ -47,8 +47,7 @@ function isAllowedHour() {
 }
 
 function isAdmin(authorId, fromMe) {
-    if (fromMe) return true;
-    return authorId.includes("@lid");
+    return authorId.includes("@lid") || fromMe;
 }
 
 function cleanMessage(text) {
@@ -89,10 +88,10 @@ async function handleBroadcast(client, message) {
 
     if (!textContent?.toLowerCase().includes(CONFIG.TRIGGER_TAG)) return;
 
-    // if (!isAdmin(author, fromMe)) {
-    //     await client.sendText(author, '⛔ Commande réservée aux administrateurs.');
-    //     return;
-    // }
+    if (!isAdmin(author, fromMe)) {
+        await client.sendText(author, '⛔ Commande réservée aux administrateurs.');
+        return;
+    }
 
     if (!isAllowedHour()) {
         await client.sendText(author, '⏰ Envoi autorisé uniquement entre 08h et 22h.');
