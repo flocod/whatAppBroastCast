@@ -10,8 +10,8 @@ const CONFIG = {
     // Nettoyage automatique des numéros admins (enlève tout sauf les chiffres)
     ADMINS: (process.env.ADMIN_PHONES || '').split(',').map(num => num.replace(/\D/g, '')),
     TRIGGER_TAG: '@tous',
-    MIN_DELAY: 6000,
-    MAX_DELAY: 12000,
+    MIN_DELAY: 12000,
+    MAX_DELAY: 25000,
     SIGNATURE: '\n\n📢 _Envoyé par le Secrétariat Famille Nyamsi_'
 };
 
