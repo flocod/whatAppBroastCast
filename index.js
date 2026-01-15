@@ -74,10 +74,13 @@ async function sendMessageToMember(client, memberId, type, messageData, caption)
 
         const base64 = await client.downloadMedia(messageData)
         // const base64 = messageData.content || messageData.body;
-        const mime = messageData.mimetype || 'image/jpeg';
-        const dataUrl = `data:${mime};base64,${base64}`;
 
-        return await client.sendImageFromBase64(memberId, dataUrl, 'broadcast.jpg', caption)
+        console.log("\n\nImage telecharge en base64:", base64, "\n\n")
+
+        // const mime = messageData.mimetype || 'image/jpeg';
+        // const dataUrl = `data:${mime};base64,${base64}`;
+
+        return await client.sendImageFromBase64(memberId, base64, 'broadcast.jpg', caption)
 
         // On envoie l'image
         // return await client.sendFile(memberId, dataUrl, 'broadcast.jpg', caption);
